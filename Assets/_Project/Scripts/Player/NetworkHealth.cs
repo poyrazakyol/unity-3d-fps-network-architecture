@@ -40,9 +40,14 @@ namespace ArcadeNetwork.Player
         private void HandleDeath()
         {
             Debug.Log($"<color=darkred>[DEATH]</color> Oyuncu {OwnerClientId} öldü!");
+    
             if (IsServer)
             {
-                transform.position = new Vector3(Random.Range(-5f, 5f), 1f, Random.Range(-5f, 5f));
+                if (TryGetComponent(out FPSNetworkController controller))
+                {
+                    controller.MoveToRandomSpawnPoint();
+                }
+        
                 CurrentHealth.Value = 100;
             }
         }
